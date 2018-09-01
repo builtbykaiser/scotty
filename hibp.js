@@ -16,6 +16,11 @@ exports.handler = function(context, event, callback) {
   let email = event.Body
   
   hibp.search(email).then(data => {
+    if (data.breaches === null || data.breaches.length === 0) {
+        twiml.message('Good news — nothing found!')
+        return callback(null, twiml)
+    }
+
     const breachesSorted = data.breaches.sort((a, b) => a.BreachDate.slice(0, 4) - b.BreachDate.slice(0, 4))
     const breachesMapped = breachesSorted.map(e => {
       let name = e.Name
