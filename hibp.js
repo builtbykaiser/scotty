@@ -29,7 +29,8 @@ exports.handler = function(context, event, callback) {
       return `${name} (${year})\n${data}`
     })
 
-    twiml.message(breachesMapped.join('\n\n'))
+    let message = `Oh no! Found your email in ${data.breaches.length} breaches:\n\n`
+    twiml.message(message + breachesMapped.join('\n\n'))
     callback(null, twiml)
   })
 }
